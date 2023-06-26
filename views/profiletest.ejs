@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+  <script
+    src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+    crossorigin="anonymous"
+  ></script>
+ <head>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+     <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+         rel = "stylesheet">
+      <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+      <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+     <script type="text/javascript">
+     	function yourFunction(){
+ 	 		var action_src = "/profile/" + document.getElementsByName("userid")[0].value;
+        	 console.log(action_src,"logging it should work")
+         	var your_form = document.getElementById('friend');
+         	your_form.action = action_src ;
+         	location.href = action_src;
+     	 }
+     	
+
+     $(document).ready(function () {
+    	 setInterval(function() {
+    		 $.getJSON("/getposts", function(data) {
+    			 console.log("entering json ");
+    	  for (var i = 0; i < data.Items.length; i++) {
+    		  //console.log("entering loop");
+    		  //console.log(data.Items.length);
+    		  var date = new Date(parseInt(data.Items[i].timestamp.S)).toLocaleString();
+    		  
+    		  /*var tableRow = "<tr><td>" + 
+    		  "<div class='card' style='margin-top: 10px; width: 46rem'>" +
+              "<div class='card-body'>" +
+              "<h6 class='card-subtitle mb-2 text-muted'>" +
+              data.Items[i].author.S +
+              "</h6>" +
+              "<p class='card-text'>  " +
+              data.Items[i].content.S + "</p>" +
+              "</div>" +
+              "</div>" +
+              "</td></tr>";
+              
+              console.log(tableRow);
+              
+              $('#poststable').append(tableRow);*/
+    		  
+              //$('#poststable td:last').after(tableRow);
+              
+              
+    		  var tableRow = " <tr><td>" +
+              "<div class='card' style='margin-top: 10px; width: 46rem'>" +
+              "<div class='card-body'>" +
+              "<h6 class='card-subtitle mb-2 text-muted'>" +
+              data.Items[i].author.S +
+              "</h6>" +
+              "<p class='card-text'>  " +
+              data.Items[i].content.S +
+              " <a href='#'' class='card-link' >" +
+              date +
+              
+              "      " +
+           
+              "</h6>" +
+            "<p class='card-text'>" +
+           
+              "</p>" +
+            "<div class='card' style='margin-top: 10px; width: 46rem'>" + 
+
+            "<div class='card-body'>" + 
+              "<form onsubmit='/addcomment; return false'>" + 
+                "<div class='form-group'>" + 
+                  "<label for='exampleInputPassword1'></label>" + 
+                  "<input " +
+                    "type='username' " +
+                    "class='form-control' " + 
+                    " id =  " + data.Items[i].id.S  + "_comments '" +
+                    " placeholder='Add a comment' " +
+                  "/>" + 
+                "</div>" + 
+
+                "<button type='submit' class='btn btn-primary'>Post</button>" + 
+             " </form> " +
+            "</div>" + 
+          "</div>" + 
+              "<a href='/homepage'class='card-link'>" +
+              " </a>" +
+             
+              "</div>" +
+               
+              "</div>" +
+              "</td></tr>";
+              //console.log(tableRow);
+              
+              //console.log(data.Items[i].author.S);
+              //tableRow = "<tr><td> <h4>" + data.Items[i].author.S + "</h4></td></tr>";
+              //console.log(tableRow);
+    		  $('#poststable').append(tableRow);
+              
+    		  //$('#poststable td:last').after(tableRow);
+    	  }
+      });
+    		// refreshPage();
+    	 }, 1000);
+     });
+     
+     /*function refreshPage() {
+    	 setTimeout(refreshPage, 3000);
+    	 $.get('profiletest.ejs', function(data) {
+    		 $('#content_div_id').html(data);
+    	 });
+     }*/
+         
+     function addPostToTable(item) {
+    	 var date = new Date(parseInt(item.timestamp.S)).toLocaleString();
+    	 var tableRow = " <tr><td>" +
+         "<div class='card' style='margin-top: 10px; width: 46rem'>" +
+         "<div class='card-body'>" +
+         "<h6 class='card-subtitle mb-2 text-muted'>" +
+         item.author.S +
+         "</h6>" +
+         "<p class='card-text'>  " +
+         item.content.S +
+         " <p>" +
+         date +
+         
+         "      " +
+      
+         "</h6>" +
+       "<p class='card-text'>" +
+      
+         "</p>" +
+       "<div class='card' style='margin-top: 10px; width: 46rem'>" + 
+
+       "<div class='card-body'>" + 
+         "<form onsubmit='/addcomment; return false'>" + 
+           "<div class='form-group'>" + 
+             "<label for='exampleInputPassword1'></label>" + 
+             "<input " +
+               "type='username' " +
+               "class='form-control' " + 
+               " id =  " + item.id.S  + "_comments '" +
+               " placeholder='Add a comment' " +
+             "/>" + 
+           "</div>" + 
+
+           "<button type='submit' class='btn btn-primary'>Post</button>" + 
+        " </form> " +
+       "</div>" + 
+     "</div>" + 
+         "<a href='/homepage'class='card-link'>" +
+         " </a>" +
+        
+         "</div>" +
+          
+         "</div>" +
+         "</td></tr>";
+         
+    	 $('#poststable').append(tableRow);
+     }
+     /*
+     function addCommentToTable()
+     
+     function addComment(commentform) {
+    	 console.log("adding comment");
+    	 $.post('/addcomment', )
+    	 
+    	 const formData = {
+    		 content: commentform.data.id.S
+    	 }
+     }*/
+     
+     /*function refreshPage() {
+ 		console.log("refreshing page");
+ 		
+ 		$("#poststable").remove();
+ 		
+ 		$.getJSON('/getposts', function(data) {
+ 			//console.log(user);
+ 			for (var i = 0; i < data.Items.length; i++) {
+ 				addPostToTable(data.Items[i]);
+ 			}
+ 		});
+ 		
+ 		
+ 	}*/
+         
+    function addPost(myForm) {
+    	//console.log("DID WE REACH HERE 1");
+      var x = "<%= user %>";
+      console.log("adding a post by ", x);
+      //get the info from the form
+
+      //const content = $("#post_to_wall").val();
+      // const timestamp = Date.now();
+
+      const formData = {
+        content: myForm.post_to_wall.value,
+        username: x,
+      };
+      
+      console.log("DID WE REACH HERE 2");
+      console.log(formData);
+      
+      $.post("/addpost", formData, function () {
+        console.log("callback reached");
+        //console.log(formData);
+        
+        $.getJSON("/getnewpost", function(data) {
+      	  console.log("entering callback of get posts");
+      	  console.log(data.username.S);
+      	  console.log(data.timestamp.S);
+      	  console.log(data.content.S);
+      	  console.log(data.author.S);
+      	  console.log(data.id.S);
+      	  
+      	var date = new Date(parseInt(data.timestamp.S)).toLocaleString();
+   	 var tableRow = " <tr><td>" +
+        "<div class='card' style='margin-top: 10px; width: 46rem'>" +
+        "<div class='card-body'>" +
+        "<h6 class='card-subtitle mb-2 text-muted'>" +
+        data.author.S +
+        "</h6>" +
+        "<p class='card-text'>  " +
+        data.content.S +
+        " <a href='#'' class='card-link' >" +
+        date +
+        
+        "      " +
+     
+        "</h6>" +
+      "<p class='card-text'>" +
+     
+        "</p>" +
+      "<div class='card' style='margin-top: 10px; width: 46rem'>" + 
+
+      "<div class='card-body'>" + 
+        "<form id = 'commentform' onsubmit='addComment(); return false'>" + 
+          "<div class='form-group'>" + 
+            "<label for='exampleInputPassword1'></label>" + 
+            "<input " +
+              "type='username' " +
+              "class='form-control' " + 
+              " id = comment_data" + "_comments '" +
+              " placeholder='Add a comment' " +
+            "/>" + 
+          "</div>" + 
+
+          "<button type='submit' class='btn btn-primary'>Post</button>" + 
+       " </form> " +
+      "</div>" + 
+    "</div>" + 
+        "<a href='/homepage'class='card-link'>" +
+        " </a>" +
+       
+        "</div>" +
+         
+        "</div>" +
+        "</td></tr>";
+        
+   	 $('#poststable').append(tableRow);
+      	  
+      	  //addPostToTable(data);
+        });
+        
+        console.log("should have updated");
+        location.href = "/profile/<%= user %>";
+        
+		//return false;
+      });
+      document.getElementById("myForm").reset();
+      
+      return false;
+      }
+      
+      
+    </script>
+  </head>
+  <body>
+  <script>0</script>
+     <nav class="navbar navbar-expand-lg navbar-light bg-white">
+      <a class="navbar-brand" href="/homepage">PennBook</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#"
+              >Home <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <form onsubmit = "yourFunction(); return false">
+                <input type="text" id="friend" name="userid">
+              </label><input type="submit" value="Search For a Friend!">
+              <br>
+            </form>
+
+
+          </li>
+          <li>	<div class="ui-widget">
+
+ 
+    </div></li>
+         
+        
+        </ul>
+      </div>
+    </nav>
+    <div class="container-fluid h-100 bg-light">
+      <div class="row h-100">
+        <div class="col-2" id="blue">
+          <h4 style="margin-top: 10px" ;><%= user %></h4>
+          <!-- Navigation links in sidebar-->
+          <a href="/profile/<%= user %>">My Profile</a>
+          <br />
+          <a href="/signup">Sign Up</a>
+          <br />
+          <a href="/change">Change My Account</a>
+          <br />
+          <a href="/addfriendspage">Add Friends</a>
+          <br />
+          <a href="/viewfriends">View My Friends</a>
+          <br />
+          <a href="/createchat">Create Chatroom</a>
+          <br />
+          <a href="/friendvisualizer">Friend Visualizer</a>
+          <br />
+          <a href="/logout">Logout</a>
+          <br />
+        </div>
+
+        <div class="col-7" style="text-align: justify; height: 720px; overflow-y: scroll;">
+          <!-- This is wear the main feed of the webpage will go -->
+
+          <div class="card" style="margin-top: 10px; width: 46rem">
+            <div class="card-body">
+              <form id = "myForm" onsubmit="return addPost(this); return false">
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Post to Your Wall</label>
+                  <input
+                    type="username"
+                    class="form-control"
+                    id="post_to_wall"
+                    placeholder="What would you like to post to <%= user %>'s wall?"
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary">Post</button>
+              </form>
+            </div>
+          </div>
+          <table class= "sortable" id="poststable">
+          
+		  </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
